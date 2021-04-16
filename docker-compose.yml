@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  gumbot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: bradcornford/discord-gumbot:latest
+    container_name: gumbot
+    working_dir: /usr/src/app
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      TZ: "Europe/London"
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+    restart: unless-stopped
