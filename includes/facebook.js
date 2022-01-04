@@ -35,17 +35,20 @@ const getFacebookPosts = async () => {
 };
 
 const matchCodeInFacebookPost = (post) => {
-    let pattern = /Classic &amp; Joint: ([a-zA-Z0-9]{6,12})/;
+    let pattern = /(Classic &amp; Joint|Secret Code):\s?([a-zA-Z0-9]{6,15})/;
 
-    if (post.message.includes('Classic &amp; Joint:')) {
+    if (
+        post.message.includes('Classic &amp; Joint:') ||
+        post.message.includes('Secret Code:')
+    ) {
         let matches = post.message.match(pattern);
 
         if (
             matches !== null &&
-            matches[1] !== 'undefined' &&
-            config.codes.filter(item => item.code === matches[1]).length === 0
+            matches[2] !== 'undefined' &&
+            config.codes.filter(item => item.code === matches[2]).length === 0
         ) {
-            return matches[1];
+            return matches[2];
         }
     }
 
